@@ -1,0 +1,7 @@
+# Ignore all files within the results directory
+results/*
+
+# But include the .gitkeep file so the 'results' directory is tracked by Git
+!results/.gitkeep
+
+.env

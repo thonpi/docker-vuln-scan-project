@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  my-insecure-app-builder:
+    build:
+      context: ./vuln-flask-app
+    image: my-insecure-app:latest # Tag the built image with the name your scanners expect
+    command: ["true"]
+
+  scanner:
+    build: ./scan-container
+    volumes:
+      - ./results:/results
+      - ./scan-container/scan.sh:/scan.sh  # Mount the script explicitly
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /app
+    command: ["/bin/bash", "/scan.sh"]
+    depends_on:
+      my-insecure-app-builder:
+        condition: service_completed_successfully # Ensures the image is built
+
+  snyk:
+    build: ./snyk-runner
+    environment:
+      - SNYK_TOKEN=${SNYK_TOKEN}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./results:/results
+    depends_on:
+      my-insecure-app-builder:
+        condition: service_completed_successfully # Ensures the image is built
