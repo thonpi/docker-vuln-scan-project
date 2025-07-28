@@ -18,6 +18,6 @@ echo "[*] Running Hadolint..."
 hadolint /app/Dockerfile > "$RESULTS_DIR/hadolint.txt"
 
 echo "[*] Running Gitleaks..."
-gitleaks detect --source /app --report-format json --report-path "$RESULTS_DIR/gitleaks.json"
+gitleaks detect --source /app --no-git --report-format json --report-path "$RESULTS_DIR/gitleaks.json"
 
 echo "✅ All scans complete. Results saved in /results"

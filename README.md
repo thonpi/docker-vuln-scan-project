@@ -5,28 +5,27 @@ This project demonstrates a multi-round vulnerability scanning workflow for Dock
 ## 📦 Project Structure
 
 ```
-├── results/          
+docker-vuln-scan-project/
+├── vuln-flask-app/      # Vulnerable Flask app (target)
+│   ├── app.py           # Sample app source code
+│   └── Dockerfile       # Defines insecure image
+├── scan-container/      # Multi-tool scanner container
+│   ├── Dockerfile       # Installs tools (Trivy, Grype, etc.)
+│   └── scan.sh          # Runs multi-round scanning
+├── snyk-runner/         # Snyk scanner container
+│   ├── Dockerfile       # Installs Snyk CLI
+│   └── scan.sh          # Runs snyk test
+├── results/             # Central folder for scan outputs
 │   ├── .gitkeep      
 │   ├── dockle.txt    
 │   ├── gitleaks.json 
 │   ├── grype.txt     
 │   ├── hadolint.txt  
 │   ├── snyk.json     
-│   └── trivy.txt     
-├── scan-container/   
-│   ├── Dockerfile    
-│   └── scan.sh       
-├── snyk-runner/      
-│   ├── Dockerfile    
-│   └── scan.sh       
-├── vuln-flask-app/   
-│   ├── .env          
-│   ├── app.py        
-│   └── Dockerfile    
-├── .env              
-├── .gitignore        
-├── docker-compose.yml
-└── README.md 
+│   └── trivy.txt 
+├── docker-compose.yml   # Orchestrates build & scan steps
+├── .env                 # Stores SNYK_TOKEN securely
+└── README.md            # Project documentation
 ```
 
 ## 🔍 Tools Used
